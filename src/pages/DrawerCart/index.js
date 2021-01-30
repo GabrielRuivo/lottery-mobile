@@ -149,12 +149,8 @@ const DrawerCart = ({ navigation }) => {
                 </View>
             }
             
-            <View 
-                style={ loading 
-                    ? { opacity: 0.1 } 
-                    : { height: '100%', paddingBottom: '5%', position: 'relative' }} 
-            >
-                <View style={{ width: '100%', alignItems: 'center', paddingTop: 15, marginTop: '5%' }} >
+            <View style={ loading ? { opacity: 0.1 } : { height: '100%', paddingBottom: '5%', position: 'relative' }} >
+                <View style={{ width: '100%', alignItems: 'center', paddingTop: 15, marginTop: '10%' }} >
                     <FontAwesome onPress={closeDrawer} style={{ marginLeft: '75%' }} name="close" size={30} color="#B5C401" />
                 </View>
                 
@@ -225,8 +221,8 @@ const DrawerCart = ({ navigation }) => {
                     </BoxGames>
                 </ScrollView>
 
-                <View style={{ marginBottom: '-88%' }} >
-                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '90%', height: '5%', marginLeft: 15, padding: '5%', paddingBottom: '7%', }} >
+                <View style={{ marginBottom: '-98%' }} >
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '90%', height: '5%', marginLeft: 15, marginBottom: 15 }} >
                         <Text style={{ color: '#707070', fontSize: 18, }} >
                             <Text style={{ color: '#707070', fontSize: 18, fontStyle: 'italic', fontWeight: 'bold' }} >CART </Text> 
                             TOTAL:
@@ -241,8 +237,10 @@ const DrawerCart = ({ navigation }) => {
                     }>
                         <TouchableOpacity onPress={handleSaveBets} style={{ flexDirection: 'row', alignItems: 'center' }} >
                             <Text style={ Platform.OS === 'android' ? { color: '#B5C401', marginTop: '6%', fontSize: 30, fontStyle: 'italic', fontWeight: 'bold' } : 
-                            {color: '#B5C401', marginTop: '12%', fontSize: 30, fontStyle: 'italic', fontWeight: 'bold'}
-                        } >Save</Text>
+                                {color: '#B5C401', marginTop: '12%', fontSize: 30, fontStyle: 'italic', fontWeight: 'bold'}
+                            }>
+                                Save
+                            </Text>
                             <AntDesign style={Platform.OS === 'ios' ? { marginTop: '14%' } : { marginTop: '9%' } } name="arrowright" size={24} color="#B5C401" />
                         </TouchableOpacity>
                     </View>
@@ -251,7 +249,6 @@ const DrawerCart = ({ navigation }) => {
         </>
     )
 }
-
 
 const styles = StyleSheet.create({
     loading: {

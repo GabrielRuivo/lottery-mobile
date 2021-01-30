@@ -23,7 +23,6 @@ export const Types = {
     SET_PRICE_CART: 'SET_PRICE_CART',
     SAVE_GAMES: 'SAVE_GAMES',
     LOG_OUT: 'LOG_OUT'
-
 }
 
 //Actions Creators
@@ -37,8 +36,8 @@ export const Creators = {
     removeCartQuina: (payload, price) => ({ type: 'REMOVE_CART_QUINA', payload, price }),
 
     setPriceCart: (payload, price) => ({ type: 'SET_PRICE_CART', payload, price }),
-    saveGames: (payload, price) => ({ type: 'SAVE_GAMES', payload, price }),
-    logout: (payload, price) => ({ type: 'LOG_OUT', payload, price }),
+    saveGames: (price) => ({ type: 'SAVE_GAMES', price }),
+    logout: () => ({ type: 'LOG_OUT' }),
 }
 
 //Reducer:
@@ -49,7 +48,7 @@ export default function reducer(state = INITIAL_STATE, action) {
             return {...state, cartLotofacil: [...state.cartLotofacil, action.payload], price: state.price + 2.50 }
 
         case Types.ADD_CART_MEGASENA: 
-            return {...state, cartMegasena:  [...state.cartMegasena,  action.payload], price: state.price + 4.50 }
+            return {...state, cartMegasena: [...state.cartMegasena,  action.payload], price: state.price + 4.50 }
 
         case Types.ADD_CART_QUINA: 
             return {...state, cartQuina: [...state.cartQuina, action.payload], price: state.price + 2.00 }
@@ -58,7 +57,7 @@ export default function reducer(state = INITIAL_STATE, action) {
             return {...state, cartLotofacil: action.payload, price: state.price - action.price }
 
         case Types.REMOVE_CART_MEGASENA: 
-            return {...state, cartMegasena:  action.payload, price: state.price - action.price }
+            return {...state, cartMegasena: action.payload, price: state.price - action.price }
 
         case Types.REMOVE_CART_QUINA: 
             return {...state, cartQuina: action.payload, price: state.price - action.price }
@@ -67,7 +66,7 @@ export default function reducer(state = INITIAL_STATE, action) {
             return { price: state.price - action.payload}
 
         case Types.SAVE_GAMES: 
-            return { ...state, cartLotofacil:[], cartMegasena:[], cartQuina:[], price: 0, update: state.update + 1 }
+            return {...state, cartLotofacil:[], cartMegasena:[], cartQuina:[], price: 0, update: state.update + 1 }
         
         case Types.LOG_OUT: 
             return { cartLotofacil:[], cartMegasena:[], cartQuina:[], savesLotofacil:[], savesMegasena:[], savesQuina:[], price: 0} 

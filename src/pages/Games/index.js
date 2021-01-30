@@ -91,7 +91,6 @@ const Games = ({ navigation }) => {
 
 
 
-
     function getBetsLotofacil() {
         return listLotofacil.reduce((buttons, isBtnSelected, index) => {
             if (isBtnSelected) {
@@ -529,8 +528,6 @@ const Games = ({ navigation }) => {
                 }
 
 
-
-
                 { betsMegasena.length === 0  && filterMegasena === true &&
                     <>
                         {
@@ -598,7 +595,7 @@ const Games = ({ navigation }) => {
                                     borderRadius: 5, 
                                     borderColor: '#B5C401', 
                                     borderWidth: 2, 
-                                    width: 110, 
+                                    width: '32%', 
                                     height: 35, 
                                     alignItems: 'center',
                                     justifyContent: 'center',
@@ -613,7 +610,7 @@ const Games = ({ navigation }) => {
                                     borderRadius: 5, 
                                     borderColor: '#B5C401', 
                                     borderWidth: 2, 
-                                    width: 80, 
+                                    width: '32%', 
                                     height: 35, 
                                     alignItems: 'center',
                                     justifyContent: 'center',
@@ -630,7 +627,7 @@ const Games = ({ navigation }) => {
                                     borderColor: '#B5C401', 
                                     backgroundColor: '#B5C401',
                                     borderWidth: 2, 
-                                    width: 130, 
+                                    width: '32%', 
                                     height: 35, 
                                     flexDirection: 'row',
                                     alignItems: 'center',
@@ -646,8 +643,6 @@ const Games = ({ navigation }) => {
                             
                     </> 
                 }
-
-
 
 
                 { betsQuina.length === 0  && filterQuina === true &&
@@ -711,15 +706,14 @@ const Games = ({ navigation }) => {
                             } 
                         </View>
                     </ScrollView>
-                    
-                    {/* <View>  */}{/* BUTTONS CLEAT GAME, COMPLETE E ADD TO CART */}
+
                         <View style={{ width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-evenly', marginTop: 10 }} >
                             <TouchableOpacity 
                                 style={{ 
                                     borderRadius: 5, 
                                     borderColor: '#B5C401', 
                                     borderWidth: 2, 
-                                    width: '30%', 
+                                    width: '32%', 
                                     height: 35, 
                                     alignItems: 'center',
                                     justifyContent: 'center',
@@ -734,7 +728,7 @@ const Games = ({ navigation }) => {
                                     borderRadius: 5, 
                                     borderColor: '#B5C401', 
                                     borderWidth: 2, 
-                                    width: '30%', 
+                                    width: '32%', 
                                     height: 35, 
                                     alignItems: 'center',
                                     justifyContent: 'center',
@@ -751,7 +745,7 @@ const Games = ({ navigation }) => {
                                     borderColor: '#B5C401', 
                                     backgroundColor: '#B5C401',
                                     borderWidth: 2, 
-                                    width: '30%', 
+                                    width: '32%', 
                                     height: 35, 
                                     flexDirection: 'row',
                                     alignItems: 'center',
@@ -763,9 +757,8 @@ const Games = ({ navigation }) => {
                                 <Text style={{ color: '#FFF', fontWeight: 'bold' }} >Add to cart</Text>
                             </TouchableOpacity>
                         </View>
-                    {/* </View> */}
                             
-                </> 
+                    </> 
                 }
 
      
