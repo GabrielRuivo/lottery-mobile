@@ -1,7 +1,8 @@
 import React from 'react';
 
-import { Text, TextInput, TouchableOpacity, ToastAndroid, View, StyleSheet, ActivityIndicator } from 'react-native';
+import Toast from 'react-native-tiny-toast';
 
+import { Text, TextInput, TouchableOpacity, View, StyleSheet, ActivityIndicator } from 'react-native';
 
 import { 
     Container,
@@ -45,19 +46,19 @@ const Register = ({ navigation }) => {
         try {
             if(!valueName|| !valueEmail || !valuePassword) {
                 setLoading(false)
-                return ToastAndroid.show('Preencha todos os campos corretamente !', ToastAndroid.LONG)
+                return Toast.show('Preencha todos os campos corretamente !', Toast.LONG)
             } 
     
             let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
             if (reg.test(valueEmail) === false) {
                 setLoading(false)
-                return ToastAndroid.show("Formato de E-mail incorreto !", ToastAndroid.LONG);
+                return Toast.show("Formato de E-mail incorreto !", Toast.LONG);
             }
 
             if (valuePassword.length < 6) {
                 setLoading(false)
-                return ToastAndroid.show("Senha deve ter no mínimo 6 dígitos !", ToastAndroid.LONG);
+                return Toast.show("Senha deve ter no mínimo 6 dígitos !", Toast.LONG);
             }
             
             const response = await api.post('/users', {
@@ -68,7 +69,7 @@ const Register = ({ navigation }) => {
 
             console.log(response.data)
 
-            ToastAndroid.show('Registrado com sucesso !', ToastAndroid.SHORT)
+            Toast.show('Registrado com sucesso !', Toast.SHORT)
 
             setTimeout(() => {
                 navigation.navigate('Login')
@@ -79,7 +80,7 @@ const Register = ({ navigation }) => {
         } catch(e) {
             setLoading(false)
             console.log('Err', e)
-            ToastAndroid.show('Este email já está em uso tente outro.')
+            Toast.show('Este email já está em uso tente outro.')
         }
     }
 

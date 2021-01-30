@@ -1,5 +1,7 @@
 import React from 'react';
 
+import Toast from 'react-native-tiny-toast';
+
 import { 
     TextInput, 
     TouchableOpacity, 
@@ -7,7 +9,6 @@ import {
     ActivityIndicator, 
     View, 
     StyleSheet,
-    ToastAndroid
 } from 'react-native';
 
 import { 
@@ -59,7 +60,7 @@ const ResetPassword = ({ navigation }) => {
 
             if (reg.test(valueEmail) === false) {
                 setLoading(false)
-                return ToastAndroid.show("Formato de E-mail incorreto !", ToastAndroid.LONG);
+                return Toast.show("Formato de E-mail incorreto !", Toast.LONG);
             }
 
             await api.post('/forgot', {
@@ -68,11 +69,11 @@ const ResetPassword = ({ navigation }) => {
 
             setLoading(false)
 
-            ToastAndroid.show('Email enviado com sucesso ! check seu inbox', ToastAndroid.LONG)
+            Toast.show('Email enviado com sucesso ! check seu inbox', Toast.LONG)
   
         } catch(err) {
             setLoading(false)
-            ToastAndroid.show('Email não existe !', ToastAndroid.LONG)
+            Toast.show('Email não existe !', Toast.LONG)
         }
   
      }

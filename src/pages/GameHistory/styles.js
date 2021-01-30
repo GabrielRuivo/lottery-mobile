@@ -16,7 +16,7 @@ export const Header = styled.View`
     align-items: baseline;
     justify-content: space-between;
 
-    padding-top: 30px;
+    padding-top: 10%;
     padding-left: 20px;
     padding-right: 20px;
 `;
@@ -74,7 +74,7 @@ export const ButtonLotofacil = styled.TouchableOpacity`
 
     border: 2.5px solid #7F3992;
     border-radius: 25px;
-    width: 105px;
+    width: 30%;
     height: 35px;
 
     padding-top: 4px;
@@ -95,7 +95,7 @@ export const ButtonMegaSena = styled.TouchableOpacity`
 
     border: 2.5px solid #01AC66;
     border-radius: 25px;
-    width: 105px;
+    width: 30%;
     height: 35px;
 
     padding-top: 4px;
@@ -116,7 +116,7 @@ export const ButtonQuina = styled.TouchableOpacity`
 
     border: 2.5px solid #F79C31;
     border-radius: 25px;
-    width: 105px;
+    width: 30%;
     height: 35px;
 
     padding-top: 4px;

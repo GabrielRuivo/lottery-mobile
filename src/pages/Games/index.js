@@ -2,7 +2,11 @@ import React from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Text, View, ScrollView, TouchableOpacity, ToastAndroid } from 'react-native';
+import { Creators as CreatorsCart } from '../../store/cart';
+
+import Toast from 'react-native-tiny-toast';
+
+import { Text, View, ScrollView, TouchableOpacity, Platform } from 'react-native';
 
 import { MaterialIcons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
@@ -32,7 +36,9 @@ import {
 
 const Games = ({ navigation }) => {
 
-    const store = useSelector(state => state);
+    const store = useSelector(state => state.cart);
+    const types = useSelector(state => state.types);
+    
     const dispatch = useDispatch();
 
     const BUTTONS_LOTOFACIL = Array.from({ length: 25  }).map(() => false);
@@ -183,7 +189,7 @@ const Games = ({ navigation }) => {
                 ...betsSavesLotofacil, (randonBets.sort((a,b) => a - b ))
             );  
         } else {
-            return ToastAndroid.show('O Jogo já está completo !', ToastAndroid.SHORT);
+            return Toast.show('O Jogo já está completo !', Toast.SHORT);
         }
     } 
 
@@ -209,7 +215,7 @@ const Games = ({ navigation }) => {
                 ...betsSavesMegasena, (randonBets.sort((a,b) => a - b ))
             );  
         } else {
-            return ToastAndroid.show('O Jogo já está completo !', ToastAndroid.SHORT);
+            return Toast.show('O Jogo já está completo !', Toast.SHORT);
         }
     } 
     
@@ -235,7 +241,7 @@ const Games = ({ navigation }) => {
                 ...betsSavesQuina, (randonBets.sort((a,b) => a - b ))
             );  
         } else {
-            return ToastAndroid.show('O Jogo já está completo !', ToastAndroid.SHORT);
+            return Toast.show('O Jogo já está completo !', Toast.SHORT);
         }
     } 
 
@@ -260,21 +266,20 @@ const Games = ({ navigation }) => {
 
     function handleAddtoCartLotofacil() {
         if (betsLotofacil.length < 15) {
-            return ToastAndroid.show('Minímo 15 números !', ToastAndroid.SHORT);
+            return Toast.show('Minímo 15 números !');
         }
 
         if (betsLotofacil.length >= 15) {
             
             try {
-                console.log('betsLotofacil: ', betsLotofacil)
+                const payload = betsLotofacil;
+                const price = 2.50;
 
-                dispatch({
-                    type: 'ADD_CART_LOTOFACIL',
-                    payload: betsLotofacil,
-                    price: 2.50
-                })
+                const { addToCartLotofacil } = CreatorsCart;
 
-                ToastAndroid.show('Adicionado ao Cart !', ToastAndroid.SHORT);
+                dispatch(addToCartLotofacil(payload, price))
+
+                Toast.show('Adicionado ao Cart !');
                 
                 handleClearGameLotofacil();
 
@@ -287,7 +292,7 @@ const Games = ({ navigation }) => {
 
     function handleAddtoCartMegasena() {
         if (betsMegasena.length < 6) {
-            return ToastAndroid.show('Minímo 6 números !', ToastAndroid.SHORT);
+            return Toast.show('Minímo 6 números !');
         }
 
         if (betsMegasena.length >= 6) {
@@ -295,13 +300,14 @@ const Games = ({ navigation }) => {
             try {
                 console.log('betsMegasena: ', betsMegasena)
 
-                dispatch({
-                    type: 'ADD_CART_MEGASENA',
-                    payload: betsMegasena,
-                    price: 4.50
-                })
+                const payload = betsMegasena;
+                const price = 4.50;
 
-                ToastAndroid.show('Adicionado ao Cart !', ToastAndroid.SHORT);
+                const { addToCartMegasena } = CreatorsCart;
+
+                dispatch(addToCartMegasena(payload, price))
+
+                Toast.show('Adicionado ao Cart !');
                 
                 handleClearGameMegasena();
 
@@ -314,21 +320,21 @@ const Games = ({ navigation }) => {
 
     function handleAddtoCartQuina() {
         if (betsQuina.length < 5) {
-            return ToastAndroid.show('Minímo 5 números !', ToastAndroid.SHORT);
+            return Toast.show('Minímo 5 números !');
         }
 
         if (betsQuina.length >= 5) {
             
             try {
-                console.log('betsQuina: ', betsQuina)
 
-                dispatch({
-                    type: 'ADD_CART_QUINA',
-                    payload: betsQuina,
-                    price: 2
-                })
+                const payload = betsQuina;
+                const price = 2.00;
 
-                ToastAndroid.show('Adicionado ao Cart !', ToastAndroid.SHORT);
+                const { addToCartQuina } = CreatorsCart;
+
+                dispatch(addToCartQuina(payload, price))
+
+                Toast.show('Adicionado ao Cart !');
                 
                 handleClearGameQuina();
 
@@ -338,9 +344,6 @@ const Games = ({ navigation }) => {
         }
 
     }
-
-
-/*     console.log('TYPES LOTOFACIL DENTRO DO GAMES: ', store.typesLotofacil) */
 
     return (
         <Container>
@@ -359,7 +362,9 @@ const Games = ({ navigation }) => {
                 ||  store.cartLotofacil.length > 0 || store.cartMegasena.length > 0 || store.cartQuina.length > 0 ? 
                     <TouchableOpacity onPress={goToCartDrawer} style={{ marginLeft: '45%', position: 'relative' }} >
                         <AntDesign name="shoppingcart" size={40} color="#B5C401" />
-                        <Text style={{ position: 'absolute', top: 6, right: 12, color:'#868686', fontWeight: 'bold',  }} >
+                        <Text style={ Platform.OS === 'ios' ? { position: 'absolute', top: '13%', right: '29%', color:'#868686', fontWeight: 'bold',  } : 
+                            {position: 'absolute', top: '10%', right: '29%', color:'#868686', fontWeight: 'bold',}
+                        }>
                             {store.cartLotofacil.length + store.cartMegasena.length + store.cartQuina.length}
                         </Text>
                     </TouchableOpacity>
@@ -384,22 +389,22 @@ const Games = ({ navigation }) => {
                 <BoxButtonsFilters>
                     <ButtonLotofacil 
                         onPress={filteredLotofacil} 
-                        style={ filterLotofacil && { backgroundColor: `${store.typesLotofacil.color}` }} >
-                        <TextButtonLotofacil style={ filterLotofacil && { color: '#fff' }} >{store.typesLotofacil.game_type}</TextButtonLotofacil>
+                        style={ filterLotofacil && { backgroundColor: `${types.typesLotofacil.color}` }} >
+                        <TextButtonLotofacil style={ filterLotofacil && { color: '#fff' }} >{types.typesLotofacil.game_type}</TextButtonLotofacil>
                     </ButtonLotofacil>
 
                     <ButtonMegaSena
                         onPress={filteredMegasena} 
-                        style={ filterMegasena && { backgroundColor: `${store.typesMegasena.color}` }}
+                        style={ filterMegasena && { backgroundColor: `${types.typesMegasena.color}` }}
                     >
-                        <TextButtonMegaSena style={ filterMegasena && { color: '#fff' }} >{store.typesMegasena.game_type}</TextButtonMegaSena>
+                        <TextButtonMegaSena style={ filterMegasena && { color: '#fff' }} >{types.typesMegasena.game_type}</TextButtonMegaSena>
                     </ButtonMegaSena>
 
                     <ButtonQuina
                         onPress={filteredQuina} 
-                        style={ filterQuina && { backgroundColor: `${store.typesQuina.color}` }}
+                        style={ filterQuina && { backgroundColor: `${types.typesQuina.color}` }}
                     >
-                        <TextButtonQuina style={ filterQuina && { color: '#fff' }} >{store.typesQuina.game_type}</TextButtonQuina>
+                        <TextButtonQuina style={ filterQuina && { color: '#fff' }} >{types.typesQuina.game_type}</TextButtonQuina>
                     </ButtonQuina>
 
                 </BoxButtonsFilters>
@@ -429,7 +434,7 @@ const Games = ({ navigation }) => {
                                         color: '#868686'
                                     }}
                                 >
-                                   {store.typesLotofacil.description}
+                                   {types.typesLotofacil.description}
                                 </Text>
                             </>
                         }
@@ -470,12 +475,12 @@ const Games = ({ navigation }) => {
                     </ScrollView>
                     
                         <View style={{ width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-evenly', marginTop: 10 }} >
-                            <TouchableOpacity 
+                            <View 
                                 style={{ 
                                     borderRadius: 5, 
                                     borderColor: '#B5C401', 
                                     borderWidth: 2, 
-                                    width: 110, 
+                                    width: '32%', 
                                     height: 35, 
                                     alignItems: 'center',
                                     justifyContent: 'center',
@@ -483,14 +488,14 @@ const Games = ({ navigation }) => {
                                 }}
                             >
                                 <Text onPress={handleCompleteGameLotofacil} style={{ color: '#B5C401', fontWeight: 'bold' }} >Complete Game</Text>
-                            </TouchableOpacity>
+                            </View>
 
-                            <TouchableOpacity 
+                            <View 
                                 style={{ 
                                     borderRadius: 5, 
                                     borderColor: '#B5C401', 
                                     borderWidth: 2, 
-                                    width: 80, 
+                                    width: '32%', 
                                     height: 35, 
                                     alignItems: 'center',
                                     justifyContent: 'center',
@@ -498,7 +503,7 @@ const Games = ({ navigation }) => {
                                 }}
                             >
                                 <Text onPress={handleClearGameLotofacil} style={{ color: '#B5C401', fontWeight: 'bold' }} >Clear game</Text>
-                            </TouchableOpacity>
+                            </View>
 
                             <TouchableOpacity 
                                 onPress={handleAddtoCartLotofacil}
@@ -507,7 +512,7 @@ const Games = ({ navigation }) => {
                                     borderColor: '#B5C401', 
                                     backgroundColor: '#B5C401',
                                     borderWidth: 2, 
-                                    width: 130, 
+                                    width: '32%', 
                                     height: 35, 
                                     flexDirection: 'row',
                                     alignItems: 'center',
@@ -547,7 +552,7 @@ const Games = ({ navigation }) => {
                                         color: '#868686'
                                     }}
                                 >
-                                   {store.typesMegasena.description}
+                                   {types.typesMegasena.description}
                                 </Text>
                             </>
                         }
@@ -667,7 +672,7 @@ const Games = ({ navigation }) => {
                                         color: '#868686'
                                     }}
                                 >
-                                   {store.typesQuina.description}
+                                   {types.typesQuina.description}
                                 </Text>
                             </>
                         }
@@ -714,7 +719,7 @@ const Games = ({ navigation }) => {
                                     borderRadius: 5, 
                                     borderColor: '#B5C401', 
                                     borderWidth: 2, 
-                                    width: 110, 
+                                    width: '30%', 
                                     height: 35, 
                                     alignItems: 'center',
                                     justifyContent: 'center',
@@ -729,7 +734,7 @@ const Games = ({ navigation }) => {
                                     borderRadius: 5, 
                                     borderColor: '#B5C401', 
                                     borderWidth: 2, 
-                                    width: 80, 
+                                    width: '30%', 
                                     height: 35, 
                                     alignItems: 'center',
                                     justifyContent: 'center',
@@ -746,7 +751,7 @@ const Games = ({ navigation }) => {
                                     borderColor: '#B5C401', 
                                     backgroundColor: '#B5C401',
                                     borderWidth: 2, 
-                                    width: 130, 
+                                    width: '30%', 
                                     height: 35, 
                                     flexDirection: 'row',
                                     alignItems: 'center',
@@ -763,9 +768,7 @@ const Games = ({ navigation }) => {
                 </> 
                 }
 
-
-
-                    
+     
                 <View style={{ backgroundColor: '#C1C1C1', width: 36, height: 6, marginHorizontal: '45%', borderRadius: 20, marginTop: 15 }} />
             </BoxInfoAboutGame>
             
@@ -779,7 +782,7 @@ const Games = ({ navigation }) => {
                                 key={buttonIndex}
                                 style={{
                                     margin: 5,
-                                    backgroundColor: isBtnSelected ? `${store.typesLotofacil.color}` : "#ADC0C4",
+                                    backgroundColor: isBtnSelected ? `${types.typesLotofacil.color}` : "#ADC0C4",
                                     borderRadius: 100,
                                     width: 55,
                                     height: 55,
@@ -794,7 +797,6 @@ const Games = ({ navigation }) => {
                     })
                 }
 
-
                 {
                     filterMegasena &&
                         listMegasena.map((isBtnSelected, buttonIndex) => {
@@ -803,7 +805,7 @@ const Games = ({ navigation }) => {
                                 key={buttonIndex}
                                 style={{
                                     margin: 5,
-                                    backgroundColor: isBtnSelected ? `${store.typesMegasena.color}` : "#ADC0C4",
+                                    backgroundColor: isBtnSelected ? `${types.typesMegasena.color}` : "#ADC0C4",
                                     borderRadius: 100,
                                     width: 55,
                                     height: 55,
@@ -818,9 +820,6 @@ const Games = ({ navigation }) => {
                     })
                 }
 
-
-
-
                 {
                     filterQuina &&
                         listQuina.map((isBtnSelected, buttonIndex) => {
@@ -829,7 +828,7 @@ const Games = ({ navigation }) => {
                                 key={buttonIndex}
                                 style={{
                                     margin: 5,
-                                    backgroundColor: isBtnSelected ? `${store.typesQuina.color}` : "#ADC0C4",
+                                    backgroundColor: isBtnSelected ? `${types.typesQuina.color}` : "#ADC0C4",
                                     borderRadius: 100,
                                     width: 55,
                                     height: 55,

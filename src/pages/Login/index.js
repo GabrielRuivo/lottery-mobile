@@ -4,6 +4,8 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import Toast from 'react-native-tiny-toast';
+
 import { 
     TextInput, 
     TouchableOpacity, 
@@ -11,7 +13,6 @@ import {
     ActivityIndicator, 
     View, 
     StyleSheet,
-    ToastAndroid
 } from 'react-native';
 
 import { 
@@ -39,7 +40,7 @@ import { __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED } from 'react/cjs/re
 
 const Login = ({ navigation }) => {
 
-    const store = useSelector(state => state);
+    const store = useSelector(state => state.cart);
     const dispatch = useDispatch();
 
     const [ isFocusedEmail, setFocusedEmail ] = React.useState(false)
@@ -93,10 +94,6 @@ const Login = ({ navigation }) => {
             const user = JSON.parse(await AsyncStorage.getItem('@CodeApi:user'))
 
             if (token && user) {
-                dispatch({
-                    type: 'SET_USER',
-                    payload: user.username
-                })
                 navigation.navigate('Home')
             }
         }
@@ -109,16 +106,21 @@ const Login = ({ navigation }) => {
         setLoading(true)
         try {
 
+            if(!valueEmail && !valuePassword) {
+                setLoading(false);
+                return Toast.show('Preencha os campos !');
+            }
+            
             let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
             if (reg.test(valueEmail) === false) {
                 setLoading(false)
-                return ToastAndroid.show("E-mail incorreto !", ToastAndroid.LONG);
+                return Toast.show("E-mail incorreto !", Toast.LONG);
             }
 
             if (valuePassword.length < 6) {
                 setLoading(false)
-                return ToastAndroid.show("Senha mínimo 6 dígitos !", ToastAndroid.LONG);
+                return Toast.show("Senha mínimo 6 dígitos !", Toast.LONG);
             }
 
             const response = await api.post('/login', {
@@ -144,7 +146,7 @@ const Login = ({ navigation }) => {
         } catch (err) {
             setLoading(false)
             console.log(err, 'erro')
-            return ToastAndroid.show("E-mail ou senha inválidos. !", ToastAndroid.LONG);
+            return Toast.show("E-mail ou senha inválidos. !", Toast.LONG);
             
           }
           

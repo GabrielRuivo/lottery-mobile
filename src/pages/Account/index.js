@@ -4,6 +4,8 @@ import { useDispatch } from 'react-redux';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import Toast from 'react-native-tiny-toast';
+
 import { 
     TextInput, 
     TouchableOpacity, 
@@ -11,7 +13,6 @@ import {
     ActivityIndicator, 
     View, 
     StyleSheet ,
-    ToastAndroid,
 } from 'react-native';
 
 import { 
@@ -98,7 +99,7 @@ const Login = ({ navigation }) => {
             setValueName('')
             setValuePasword('')
 
-            ToastAndroid.show("DADOS ATUALIZADOS !", ToastAndroid.SHORT);
+            Toast.show("DADOS ATUALIZADOS !", Toast.SHORT);
 
             dispatch({type: 'LOG_OUT'})
             

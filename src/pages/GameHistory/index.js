@@ -6,6 +6,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { useDispatch, useSelector } from 'react-redux';
 
+import { Creators as CreatorsCart } from '../../store/cart/index';
+import { Creators as CreatorsTypes } from '../../store/types/index';
+
 import { MaterialIcons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 
@@ -55,7 +58,7 @@ import api from '../../services/api';
 
 const GameHistory = ({ navigation }) => {
 
-    const store = useSelector(state => state);
+    const store = useSelector(state => state.cart);
 
     const dispatch = useDispatch();
 
@@ -70,8 +73,6 @@ const GameHistory = ({ navigation }) => {
     const [ infoMegasena , setInfoMegasena ] = React.useState([]);
     const [ infoQuina, setInfoQuina ] = React.useState([]);
 
-
-
     React.useEffect(  () => {
         async function requestTypes () {
             const response = await api.get('types')
@@ -80,12 +81,13 @@ const GameHistory = ({ navigation }) => {
             setInfoMegasena(response.data[1])
             setInfoQuina(response.data[2])
 
-            dispatch({
-                type: 'SET_TYPES',
-                lotofacil: response.data[0],
-                megasena: response.data[1],
-                quina: response.data[2],
-            })
+            const { setTypes } = CreatorsTypes;
+
+            const lotofacil = response.data[0];
+            const megasena = response.data[1];
+            const quina = response.data[2];
+
+            dispatch(setTypes(lotofacil, megasena, quina))
         }
         requestTypes()
     },[])
@@ -141,12 +143,9 @@ const GameHistory = ({ navigation }) => {
         }
     }, [dbInformation])
 
-
-
-
-
     function handleLogout() {
-        dispatch({type: 'LOG_OUT'})
+        const { logout } = CreatorsCart;
+        dispatch(logout())
         
         AsyncStorage.removeItem('@CodeApi:token')
         AsyncStorage.removeItem('@CodeApi:user')
@@ -154,14 +153,9 @@ const GameHistory = ({ navigation }) => {
         navigation.navigate('Login')
         
     }
-    
     function handleToHome() {
         navigation.navigate('Home')
     }
-
-
-    
-
     function filteredLotofacil() {
         setFilterLotofacil(!filterLotofacil)
     }
@@ -172,9 +166,6 @@ const GameHistory = ({ navigation }) => {
         setFilterQuina(!filterQuina)
     }
 
-
-
-    
     return (
         <Container>
             <Header>
@@ -241,7 +232,7 @@ const GameHistory = ({ navigation }) => {
                                     <BoxInfoGameLotofacil>
                                         <NumbersLotofacil>{item.numbers}</NumbersLotofacil>
                                         <DateAndPriceLotofacil>{item.date} - (R$ {infoLotofacil.price})</DateAndPriceLotofacil>
-                                        <NameGameLotofacil>lotofacil</NameGameLotofacil>
+                                        <NameGameLotofacil>Lotofácil</NameGameLotofacil>
                                     </BoxInfoGameLotofacil>
                                 </GameLotofacil>
                             )
@@ -256,7 +247,7 @@ const GameHistory = ({ navigation }) => {
                                     <BoxInfoGameMegaSena>
                                         <NumbersMegaSena>{item.numbers}</NumbersMegaSena>
                                         <DateAndPriceMegaSena>{item.date} - (R$ {infoMegasena.price})</DateAndPriceMegaSena>
-                                        <NameGameMegaSena>megasena</NameGameMegaSena>
+                                        <NameGameMegaSena>Mega-Sena</NameGameMegaSena>
                                     </BoxInfoGameMegaSena>
                                 </GameMegaSena>
                             )
@@ -271,7 +262,7 @@ const GameHistory = ({ navigation }) => {
                                     <BoxInfoGameQuina>
                                         <NumbersQuina>{item.numbers}</NumbersQuina>
                                         <DateAndPriceQuina>{item.date} - (R$ {infoQuina.price})</DateAndPriceQuina>
-                                        <NameGameQuina>quina</NameGameQuina>
+                                        <NameGameQuina>Quina</NameGameQuina>
                                     </BoxInfoGameQuina>
                                 </GameQuina>
                             )

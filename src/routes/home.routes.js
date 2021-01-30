@@ -143,7 +143,7 @@ export default function HomeRoutes ({ navigation }) {
                     style: {
                         borderTopLeftRadius: 10,
                         borderTopRightRadius: 10,
-                        height: 70,
+                        height: '10%',
                         backgroundColor: "white",
                         marginBottom: 0,
 
